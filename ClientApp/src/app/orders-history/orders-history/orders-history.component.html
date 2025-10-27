@@ -1,0 +1,23 @@
+<mat-card class="orders-history-card">
+  <mat-card-header class="orders-history-header">
+    <mat-card-title>Orders History</mat-card-title>
+  </mat-card-header>
+  <mat-card-content class="orders-history-content">
+    <div class="container mt-5">
+      <div class="row" *ngIf="orderHistories.length > 0">
+        <div class="col-2" *ngFor="let orderHistory of orderHistories">
+          <mat-card class="order-history-item">
+            <mat-card-header>
+              <mat-card-title>Order #{{ orderHistory.id }}</mat-card-title>
+            </mat-card-header>
+            <mat-card-content>
+              <p><strong>Date:</strong> {{ orderHistory.orderDate | date: 'medium' }}</p>
+              <p><strong>Total:</strong> {{ orderHistory.totalAmount | currency }}</p>
+              <p><strong>Status:</strong> {{ orderHistory.status }}</p>
+            </mat-card-content>
+          </mat-card>
+        </div>
+      </div>
+    </div>
+  </mat-card-content>
+</mat-card>

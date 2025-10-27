@@ -1,0 +1,84 @@
+<div class="container">
+  <div class="product-section" *ngIf="product">
+    <div class="product-image">
+      <img [src]="product.pictureUrl" alt="{{product.name}}">
+    </div>
+
+    <div class="product-details">
+      <h2>{{product.name}}</h2>
+      <span class="mb-2 product-price" [class.strikethrough]="product.discount !== null">{{ product.price | currency }}</span>
+      <span class="mb-2 product-discount" *ngIf="product.discount !== null">
+      Discounted: {{ product.discount }}%  Price: {{ (product.price - (product.price * product.discount / 100)) | currency }}
+    </span>
+      <p class="description">{{product.description}}</p>
+    </div>
+
+    <div class="rating-section">
+      <p>Average: {{averageRating ? (averageRating | number: '1.1-1') : 'N/A'}} | Your vote:</p>
+      <app-rating [selectedRate]="userRating ? userRating : 0" (onRating)="onRating($event)"></app-rating>
+    </div>
+
+    <div class="quantity-controls">
+      <button mat-icon-button (click)="decrementQuantity()" [disabled]="quantity <= 1">
+        <mat-icon>remove_circle</mat-icon>
+      </button>
+      <span class="quantity">{{quantity}}</span>
+      <button mat-icon-button (click)="incrementQuantity()">
+        <mat-icon>add_circle</mat-icon>
+      </button>
+      <button
+        mat-raised-button
+        color="primary"
+        class="add-to-basket"
+        (click)="updateBasket()"
+        [disabled]="quantity === quantityInBasket"
+      >{{buttonText}}</button>
+    </div>
+  </div>
+
+  <div class="comments-section">
+    <form (ngSubmit)="addComment()" [formGroup]="commentForm">
+      <mat-card class="comment-card">
+        <mat-card-content>
+          <mat-form-field appearance="fill" class="full-width">
+            <mat-label>ADD YOUR COMMENT:</mat-label>
+            <textarea matInput rows="6" name="text" required formControlName="text" maxlength="800"></textarea>
+          </mat-form-field>
+          <div class="button-container">
+            <button mat-raised-button color="primary" type="submit">Add</button>
+          </div>
+        </mat-card-content>
+      </mat-card>
+    </form>
+
+    <div class="comments-list">
+      <mat-accordion class="accordion" multi="true" *ngIf="comments.length > 0">
+        <mat-expansion-panel *ngFor="let comment of comments">
+          <mat-action-row>
+            <div class="action-buttons">
+              <button (click)="likeComment(comment.id)" mat-button color="primary">
+                <mat-icon>thumb_up</mat-icon> {{ comment.likesCount }}
+              </button>
+              <button (click)="dislikeComment(comment.id)" mat-button color="primary">
+                <mat-icon>thumb_down</mat-icon> {{ comment.dislikesCount }}
+              </button>
+              <button (click)="removeComment(comment.id)" mat-button color="primary">DELETE</button>
+            </div>
+            <div class="comment-time">
+              <p class="text-muted">{{ comment.timeAgo }}</p>
+            </div>
+          </mat-action-row>
+          <mat-expansion-panel-header>
+            <mat-panel-title>
+              <p>{{ comment.username }}</p>
+            </mat-panel-title>
+            <mat-panel-description>
+              <p>{{ comment.text }}</p>
+            </mat-panel-description>
+          </mat-expansion-panel-header>
+        </mat-expansion-panel>
+      </mat-accordion>
+      <h3 class="info-text mat-body-3" *ngIf="comments.length <= 0">NO COMMENTS...</h3>
+    </div>
+  </div>
+</div>
