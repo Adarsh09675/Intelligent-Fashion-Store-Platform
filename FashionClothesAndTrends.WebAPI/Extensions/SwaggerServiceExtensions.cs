@@ -1,4 +1,4 @@
-﻿using Microsoft.OpenApi.Models;
+using Microsoft.OpenApi.Models;
 
 namespace FashionClothesAndTrends.WebAPI.Extensions;
 
@@ -17,9 +17,8 @@ public static class SwaggerServiceExtensions
                 Description = "API provides work with Fashion Clothes And Trends Store.",
                 Contact = new OpenApiContact
                 {
-                    Name = "Bohdan Harabadzhyu",
-                    Email = "bohdan_harabadzhyu@outlook.com",
-                    Url = new Uri("https://bohdan-harabadzhyu-homepage.vercel.app"),
+                    Name = "Adarsh",
+                    Url = new Uri("https://github.com/Adarsh09675"),
                 }
             });
 
